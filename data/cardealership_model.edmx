@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarDealershipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Автомобили">
+          <Key>
+            <PropertyRef Name="Номер автомобиля" />
+          </Key>
+          <Property Name="Номер автомобиля" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Марка" Type="int" Nullable="false" />
+          <Property Name="Год производства" Type="int" Nullable="false" />
+          <Property Name="Цвет" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Категория" Type="int" Nullable="false" />
+          <Property Name="Цена" Type="money" Nullable="false" />
+          <Property Name="Модель" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Фото" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Категории автомобилей">
+          <Key>
+            <PropertyRef Name="Номер категории" />
+          </Key>
+          <Property Name="Номер категории" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Марки автомобилей">
+          <Key>
+            <PropertyRef Name="Номер марки" />
+          </Key>
+          <Property Name="Номер марки" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название марки" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Страна производитель" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Завод производитель" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Покупатели">
+          <Key>
+            <PropertyRef Name="Номер покупателя" />
+          </Key>
+          <Property Name="Номер покупателя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Паспортные данные" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Город" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Дата рождения" Type="date" Nullable="false" />
+          <Property Name="Пол" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Продажи автомобилей">
+          <Key>
+            <PropertyRef Name="Номер продажи" />
+          </Key>
+          <Property Name="Номер продажи" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Дата" Type="date" Nullable="false" />
+          <Property Name="Сотрудник" Type="int" Nullable="false" />
+          <Property Name="Автомобиль" Type="int" Nullable="false" />
+          <Property Name="Покупатель" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="Номер сотрудника" />
+          </Key>
+          <Property Name="Номер сотрудника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Год поступления на работу" Type="int" Nullable="false" />
+          <Property Name="Зарплата" Type="money" Nullable="false" />
+          <Property Name="Дата рождения" Type="date" Nullable="false" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Стаж" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK_Автомобили_Категории автомобилей">
+          <End Role="Категории автомобилей" Type="Self.Категории автомобилей" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Категории автомобилей">
+              <PropertyRef Name="Номер категории" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Категория" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Автомобили_Марки автомобилей">
+          <End Role="Марки автомобилей" Type="Self.Марки автомобилей" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Марки автомобилей">
+              <PropertyRef Name="Номер марки" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Марка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи автомобилей_Автомобили">
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="1" />
+          <End Role="Продажи автомобилей" Type="Self.Продажи автомобилей" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобили">
+              <PropertyRef Name="Номер автомобиля" />
+            </Principal>
+            <Dependent Role="Продажи автомобилей">
+              <PropertyRef Name="Автомобиль" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи автомобилей_Покупатели">
+          <End Role="Покупатели" Type="Self.Покупатели" Multiplicity="1" />
+          <End Role="Продажи автомобилей" Type="Self.Продажи автомобилей" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Покупатели">
+              <PropertyRef Name="Номер покупателя" />
+            </Principal>
+            <Dependent Role="Продажи автомобилей">
+              <PropertyRef Name="Покупатель" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи автомобилей_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Продажи автомобилей" Type="Self.Продажи автомобилей" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Номер сотрудника" />
+            </Principal>
+            <Dependent Role="Продажи автомобилей">
+              <PropertyRef Name="Сотрудник" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarDealershipModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Автомобили" EntityType="Self.Автомобили" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Категории автомобилей" EntityType="Self.Категории автомобилей" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Марки автомобилей" EntityType="Self.Марки автомобилей" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Покупатели" EntityType="Self.Покупатели" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Продажи автомобилей" EntityType="Self.Продажи автомобилей" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Автомобили_Категории автомобилей" Association="Self.FK_Автомобили_Категории автомобилей">
+            <End Role="Категории автомобилей" EntitySet="Категории автомобилей" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Автомобили_Марки автомобилей" Association="Self.FK_Автомобили_Марки автомобилей">
+            <End Role="Марки автомобилей" EntitySet="Марки автомобилей" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи автомобилей_Автомобили" Association="Self.FK_Продажи автомобилей_Автомобили">
+            <End Role="Автомобили" EntitySet="Автомобили" />
+            <End Role="Продажи автомобилей" EntitySet="Продажи автомобилей" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи автомобилей_Покупатели" Association="Self.FK_Продажи автомобилей_Покупатели">
+            <End Role="Покупатели" EntitySet="Покупатели" />
+            <End Role="Продажи автомобилей" EntitySet="Продажи автомобилей" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи автомобилей_Сотрудники" Association="Self.FK_Продажи автомобилей_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Продажи автомобилей" EntitySet="Продажи автомобилей" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarDealershipModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Автомобили">
+          <Key>
+            <PropertyRef Name="Номер_автомобиля" />
+          </Key>
+          <Property Name="Номер_автомобиля" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Марка" Type="Int32" Nullable="false" />
+          <Property Name="Год_производства" Type="Int32" Nullable="false" />
+          <Property Name="Цвет" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Категория" Type="Int32" Nullable="false" />
+          <Property Name="Цена" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Модель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Фото" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Категории_автомобилей" Relationship="Self.FK_Автомобили_Категории_автомобилей" FromRole="Автомобили" ToRole="Категории_автомобилей" />
+          <NavigationProperty Name="Марки_автомобилей" Relationship="Self.FK_Автомобили_Марки_автомобилей" FromRole="Автомобили" ToRole="Марки_автомобилей" />
+          <NavigationProperty Name="Продажи_автомобилей" Relationship="Self.FK_Продажи_автомобилей_Автомобили" FromRole="Автомобили" ToRole="Продажи_автомобилей" />
+        </EntityType>
+        <EntityType Name="Категории_автомобилей">
+          <Key>
+            <PropertyRef Name="Номер_категории" />
+          </Key>
+          <Property Name="Номер_категории" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Автомобили" Relationship="Self.FK_Автомобили_Категории_автомобилей" FromRole="Категории_автомобилей" ToRole="Автомобили" />
+        </EntityType>
+        <EntityType Name="Марки_автомобилей">
+          <Key>
+            <PropertyRef Name="Номер_марки" />
+          </Key>
+          <Property Name="Номер_марки" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название_марки" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Страна_производитель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Завод_производитель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Автомобили" Relationship="Self.FK_Автомобили_Марки_автомобилей" FromRole="Марки_автомобилей" ToRole="Автомобили" />
+        </EntityType>
+        <EntityType Name="Покупатели">
+          <Key>
+            <PropertyRef Name="Номер_покупателя" />
+          </Key>
+          <Property Name="Номер_покупателя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Паспортные_данные" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Город" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Дата_рождения" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Пол" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Продажи_автомобилей" Relationship="Self.FK_Продажи_автомобилей_Покупатели" FromRole="Покупатели" ToRole="Продажи_автомобилей" />
+        </EntityType>
+        <EntityType Name="Продажи_автомобилей">
+          <Key>
+            <PropertyRef Name="Номер_продажи" />
+          </Key>
+          <Property Name="Номер_продажи" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Дата" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Сотрудник" Type="Int32" Nullable="false" />
+          <Property Name="Автомобиль" Type="Int32" Nullable="false" />
+          <Property Name="Покупатель" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Автомобили" Relationship="Self.FK_Продажи_автомобилей_Автомобили" FromRole="Продажи_автомобилей" ToRole="Автомобили" />
+          <NavigationProperty Name="Покупатели" Relationship="Self.FK_Продажи_автомобилей_Покупатели" FromRole="Продажи_автомобилей" ToRole="Покупатели" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Продажи_автомобилей_Сотрудники" FromRole="Продажи_автомобилей" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="Номер_сотрудника" />
+          </Key>
+          <Property Name="Номер_сотрудника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Год_поступления_на_работу" Type="Int32" Nullable="false" />
+          <Property Name="Зарплата" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Дата_рождения" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Стаж" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Продажи_автомобилей" Relationship="Self.FK_Продажи_автомобилей_Сотрудники" FromRole="Сотрудники" ToRole="Продажи_автомобилей" />
+        </EntityType>
+        <Association Name="FK_Автомобили_Категории_автомобилей">
+          <End Role="Категории_автомобилей" Type="Self.Категории_автомобилей" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Категории_автомобилей">
+              <PropertyRef Name="Номер_категории" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Категория" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Автомобили_Марки_автомобилей">
+          <End Role="Марки_автомобилей" Type="Self.Марки_автомобилей" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Марки_автомобилей">
+              <PropertyRef Name="Номер_марки" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Марка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_автомобилей_Автомобили">
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="1" />
+          <End Role="Продажи_автомобилей" Type="Self.Продажи_автомобилей" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобили">
+              <PropertyRef Name="Номер_автомобиля" />
+            </Principal>
+            <Dependent Role="Продажи_автомобилей">
+              <PropertyRef Name="Автомобиль" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_автомобилей_Покупатели">
+          <End Role="Покупатели" Type="Self.Покупатели" Multiplicity="1" />
+          <End Role="Продажи_автомобилей" Type="Self.Продажи_автомобилей" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Покупатели">
+              <PropertyRef Name="Номер_покупателя" />
+            </Principal>
+            <Dependent Role="Продажи_автомобилей">
+              <PropertyRef Name="Покупатель" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продажи_автомобилей_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Продажи_автомобилей" Type="Self.Продажи_автомобилей" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Номер_сотрудника" />
+            </Principal>
+            <Dependent Role="Продажи_автомобилей">
+              <PropertyRef Name="Сотрудник" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarDealershipEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Автомобили" EntityType="Self.Автомобили" />
+          <EntitySet Name="Категории_автомобилей" EntityType="Self.Категории_автомобилей" />
+          <EntitySet Name="Марки_автомобилей" EntityType="Self.Марки_автомобилей" />
+          <EntitySet Name="Покупатели" EntityType="Self.Покупатели" />
+          <EntitySet Name="Продажи_автомобилей" EntityType="Self.Продажи_автомобилей" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" />
+          <AssociationSet Name="FK_Автомобили_Категории_автомобилей" Association="Self.FK_Автомобили_Категории_автомобилей">
+            <End Role="Категории_автомобилей" EntitySet="Категории_автомобилей" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Автомобили_Марки_автомобилей" Association="Self.FK_Автомобили_Марки_автомобилей">
+            <End Role="Марки_автомобилей" EntitySet="Марки_автомобилей" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_автомобилей_Автомобили" Association="Self.FK_Продажи_автомобилей_Автомобили">
+            <End Role="Автомобили" EntitySet="Автомобили" />
+            <End Role="Продажи_автомобилей" EntitySet="Продажи_автомобилей" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_автомобилей_Покупатели" Association="Self.FK_Продажи_автомобилей_Покупатели">
+            <End Role="Покупатели" EntitySet="Покупатели" />
+            <End Role="Продажи_автомобилей" EntitySet="Продажи_автомобилей" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продажи_автомобилей_Сотрудники" Association="Self.FK_Продажи_автомобилей_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Продажи_автомобилей" EntitySet="Продажи_автомобилей" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarDealershipModelStoreContainer" CdmEntityContainer="CarDealershipEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CarDealershipModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Автомобили">
+            <EntityTypeMapping TypeName="CarDealershipModel.Автомобили">
+              <MappingFragment StoreEntitySet="Автомобили">
+                <ScalarProperty Name="Номер_автомобиля" ColumnName="Номер автомобиля" />
+                <ScalarProperty Name="Марка" ColumnName="Марка" />
+                <ScalarProperty Name="Год_производства" ColumnName="Год производства" />
+                <ScalarProperty Name="Цвет" ColumnName="Цвет" />
+                <ScalarProperty Name="Категория" ColumnName="Категория" />
+                <ScalarProperty Name="Цена" ColumnName="Цена" />
+                <ScalarProperty Name="Модель" ColumnName="Модель" />
+                <ScalarProperty Name="Фото" ColumnName="Фото" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Категории_автомобилей">
+            <EntityTypeMapping TypeName="CarDealershipModel.Категории_автомобилей">
+              <MappingFragment StoreEntitySet="Категории автомобилей">
+                <ScalarProperty Name="Номер_категории" ColumnName="Номер категории" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Марки_автомобилей">
+            <EntityTypeMapping TypeName="CarDealershipModel.Марки_автомобилей">
+              <MappingFragment StoreEntitySet="Марки автомобилей">
+                <ScalarProperty Name="Номер_марки" ColumnName="Номер марки" />
+                <ScalarProperty Name="Название_марки" ColumnName="Название марки" />
+                <ScalarProperty Name="Страна_производитель" ColumnName="Страна производитель" />
+                <ScalarProperty Name="Завод_производитель" ColumnName="Завод производитель" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Покупатели">
+            <EntityTypeMapping TypeName="CarDealershipModel.Покупатели">
+              <MappingFragment StoreEntitySet="Покупатели">
+                <ScalarProperty Name="Номер_покупателя" ColumnName="Номер покупателя" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Паспортные_данные" ColumnName="Паспортные данные" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Город" ColumnName="Город" />
+                <ScalarProperty Name="Дата_рождения" ColumnName="Дата рождения" />
+                <ScalarProperty Name="Пол" ColumnName="Пол" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Продажи_автомобилей">
+            <EntityTypeMapping TypeName="CarDealershipModel.Продажи_автомобилей">
+              <MappingFragment StoreEntitySet="Продажи автомобилей">
+                <ScalarProperty Name="Номер_продажи" ColumnName="Номер продажи" />
+                <ScalarProperty Name="Дата" ColumnName="Дата" />
+                <ScalarProperty Name="Сотрудник" ColumnName="Сотрудник" />
+                <ScalarProperty Name="Автомобиль" ColumnName="Автомобиль" />
+                <ScalarProperty Name="Покупатель" ColumnName="Покупатель" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сотрудники">
+            <EntityTypeMapping TypeName="CarDealershipModel.Сотрудники">
+              <MappingFragment StoreEntitySet="Сотрудники">
+                <ScalarProperty Name="Номер_сотрудника" ColumnName="Номер сотрудника" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Год_поступления_на_работу" ColumnName="Год поступления на работу" />
+                <ScalarProperty Name="Зарплата" ColumnName="Зарплата" />
+                <ScalarProperty Name="Дата_рождения" ColumnName="Дата рождения" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Стаж" ColumnName="Стаж" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
